@@ -1,0 +1,11 @@
+.default {
+    display: flex;
+}
+
+.drawer {
+    flex-shrink: 0;
+}
+
+.content {
+    flex-grow: 1;
+}
