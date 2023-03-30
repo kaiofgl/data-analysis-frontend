@@ -1,0 +1,22 @@
+@import "../../sass/theme/ThemeBase";
+
+
+.new {
+    height: 100% !important;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    &:hover {
+        background-color: $primary;
+        transition: all 0.4s;
+    }
+
+    .input {
+        display: none;
+    }
+
+    .label {
+        text-align: center;
+    }
+}
