@@ -1,0 +1,17 @@
+//light
+
+$primary: #b2d100;
+$secondary: #412421;
+
+$danger: #fa4040;
+
+$radius: 8px;
+
+:export {
+    primary: $primary;
+    secondary: $secondary;
+
+    danger: $danger;
+
+    borderRadius: $radius;
+}
