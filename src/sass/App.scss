@@ -1,4 +1,14 @@
-@import "./utils/_Reset.scss";
+// Reset 
+@import "./base/Reset";
+
+// Font
+@import "./base/Fonts";
+
+//Theme
+@import "./theme/ThemeBase";
 
 // Grid
 @import "./Grid";
+
+// components
+@import "./components/Modal";
