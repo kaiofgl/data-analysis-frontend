@@ -1,19 +1,22 @@
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
+import "./ModalUpload.scss";
 
 import { useEffect, useState } from "react";
 
+import { Divider, Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
+
 import { Paperclip, X, UploadCloud } from "react-feather";
-import "./ModalUpload.scss";
+
+import ModalUploadList from "./ModalUploadList";
+
+import api from "../../utils/api";
 
 const ModalUpload = (props) => {
     const { open, file } = props;
 
-
     const [fileUpload, setFileUpload] = useState(false);
+    const [preStructure, setPreStructure] = useState([]);
+
+    const formData = new FormData();
 
     function onClose() {
         props.onClose(false);
@@ -32,13 +35,47 @@ const ModalUpload = (props) => {
     function remomeFile() {
         setTimeout(() => {
             setFileUpload(false);
+            setPreStructure([]);
             props.fileCallback(false);
         }, 100)
     }
 
+    const handleStructureFile = () => {
+        api.post("api/v1/processing/pre-structure", formData).then((response) => {
+            const { status } = response
+            if (status === 200) {
+                console.log(response.data);
+                setPreStructure(response.data)
+            } else {
+                console.log("handle error");
+            }
+        });
+    }
+
+    function handlePreview(row) {
+        for (var key of formData.keys()) {
+            formData.delete(key)
+        };
+
+        formData.set('file', file);
+        formData.set('column', row);
+
+        api.post("api/v1/processing/pre-structure/column", formData).then((response) => {
+            const { status } = response
+            if (status === 200) {
+                console.log(response.data);
+                // setPreview(response.data)
+            } else {
+                console.log("handle error");
+            }
+        });
+    }
+
     useEffect(() => {
-        if (file.name) {
+        if (file && file.name) {
             setFileUpload(file);
+            formData.set('file', file);
+            handleStructureFile();
         }
     }, [file]);
 
@@ -52,7 +89,7 @@ const ModalUpload = (props) => {
             </DialogTitle>
             <DialogContent>
                 <label htmlFor="upload-modal" className="input-file">
-                    {fileUpload == false ?
+                    {fileUpload === false ?
                         <input
                             accept=".xlsx, .xls, .json, .csv"
                             id="upload-modal"
@@ -64,7 +101,7 @@ const ModalUpload = (props) => {
 
                     <div className="filename">
                         <div className="upload">
-                            {fileUpload == false ?
+                            {fileUpload === false ?
                                 <div className="d-flex">
                                     <UploadCloud />
                                     <div >
@@ -86,6 +123,16 @@ const ModalUpload = (props) => {
 
                     <div className="bar"></div>
                 </label>
+
+                {preStructure.length > 0 ?
+                    <div>
+                        <Divider className="pt-4"></Divider>
+                        <DialogTitle className="d-flex justify-center" sx={{ fontWeight: "bold" }}>
+                            Estrutura
+                        </DialogTitle>
+                        <ModalUploadList structure={preStructure} handlePreview={handlePreview} />
+                    </div> : <></>}
+
             </DialogContent>
             <DialogActions>
                 <Button variant="outlined" color="danger" onClick={onClose}>Cancelar</Button>
