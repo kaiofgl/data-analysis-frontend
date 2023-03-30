@@ -9,7 +9,7 @@ import ModalConfirm from '../../components/Modal/ModalConfirm';
 const CardFile = (props) => {
 
     const [file, setFile] = useState(false);
-    const [modalOpen, setModalOpen] = useState(true);
+    const [modalOpen, setModalOpen] = useState(false);
     const [modalConfirmOpen, setModalConfirmOpen] = useState(false);
 
     function handleFile(e) {

@@ -13,7 +13,7 @@ const ModalUpload = (props) => {
     const { open, file } = props;
 
 
-    const [fileUpload, setFileUpload] = useState(null);
+    const [fileUpload, setFileUpload] = useState(false);
 
     function onClose() {
         props.onClose(false);
@@ -31,7 +31,7 @@ const ModalUpload = (props) => {
 
     function remomeFile() {
         setTimeout(() => {
-            setFileUpload(null);
+            setFileUpload(false);
             props.fileCallback(false);
         }, 100)
     }
@@ -52,7 +52,7 @@ const ModalUpload = (props) => {
             </DialogTitle>
             <DialogContent>
                 <label htmlFor="upload-modal" className="input-file">
-                    {fileUpload == null ?
+                    {fileUpload == false ?
                         <input
                             accept=".xlsx, .xls, .json, .csv"
                             id="upload-modal"
@@ -64,7 +64,7 @@ const ModalUpload = (props) => {
 
                     <div className="filename">
                         <div className="upload">
-                            {fileUpload == null ?
+                            {fileUpload == false ?
                                 <div className="d-flex">
                                     <UploadCloud />
                                     <div >
