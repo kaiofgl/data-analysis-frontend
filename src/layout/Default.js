@@ -1,4 +1,4 @@
-import { Drawer, List, ListItem, ListItemIcon, ListItemText, Typography } from '@mui/material';
+import { Drawer, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 
 import * as React from 'react';
 
@@ -56,6 +56,7 @@ function Layout({ children }) {
         </List> */}
       </Drawer>
       <main
+        color='primary'
         className="content px-3 py-3"
       >
         <div />
