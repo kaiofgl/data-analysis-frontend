@@ -2,6 +2,12 @@
 
 Backend da aplicação: [Backend](https://github.com/kaiofgl/data-analysis-backend).
 
+
+## Versões
+
+node >= v16.19.1
+npm >= 8.19.3
+
 ## Scripts disponíveis
 
 Na raiz do diretório do projeto, execute:
