@@ -8,7 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 import { PieChart } from 'react-feather';
 
-import BarGraph from "../../Graphs/bar";
+import BarGraph from "../Chart/Bar";
 
 const ModalPreview = (props) => {
     const { data, open, column } = props;
