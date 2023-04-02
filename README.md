@@ -12,6 +12,9 @@ npm >= 8.19.3
 
 Na raiz do diretório do projeto, execute:
 
+### `npm install`
+
+O aplicativo irá instalar todos os pacotes presentes no `package.json` e irá criar a pasta `./node-modules` com os pacotes necessários para o projeto.
 ### `npm start`
 
 O aplicativo estará sendo executado nas portas.\
