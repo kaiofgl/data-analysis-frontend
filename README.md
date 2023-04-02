@@ -12,10 +12,10 @@ npm >= 8.19.3
 
 Na raiz do diretório do projeto, execute:
 
-### `npm install`
+#### `npm install`
 
 O aplicativo irá instalar todos os pacotes presentes no `package.json` e irá criar a pasta `./node-modules` com os pacotes necessários para o projeto.
-### `npm start`
+#### `npm start`
 
 O aplicativo estará sendo executado nas portas.\
 Abra [http://localhost:3000](http://localhost:3000) para ver no seu navegador.
@@ -23,11 +23,10 @@ Abra [http://localhost:3000](http://localhost:3000) para ver no seu navegador.
 A página sempre será recarregada após uma mudança.
 Você pode ver os erros no console do projeto.
 
-### `npm run build`
+#### `npm run build`
 
 Builda o projeto para a produção com a pasta `build`\
-O correto é sempre compilar o projeto para produção para uma melhor performance após o término do desenvolvimento.
-
+Compilar é apenas no estágio de `produção`. `Desenvolvimento` não precisa desse comando.
 ## Documentações
 
 #### React 
