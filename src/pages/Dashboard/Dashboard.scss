@@ -1,16 +1,57 @@
 .processing {
-    display: flex;
-    flex-wrap: wrap;
+
+    .loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 360px;
+    }
+
+    .title {
+        font-weight: bold;
+        text-align: center;
+        font-size: 20px;
+    }
 
     .card {
-        flex-basis: 48%;
-        max-width: 48%;
+        min-height: 230px;
 
-        // max-width: 30%;
-        // height: 500px;
-        .title {
-            font-weight: bold;
-            text-align: center;
+        .card-content {
+
+            min-height: 230px;
+        }
+
+        .card-actions {
+            display: grid;
+
+            Button {
+                height: 60px;
+                width: 100%;
+            }
+        }
+    }
+
+    .graphics {
+        Button {
+            height: 50px;
+        }
+
+        .list {
+            display: flex;
+            flex-wrap: wrap;
+
+        }
+
+        .card {
+            flex-basis: 48%;
+            max-width: 48%;
+
+            // max-width: 30%;
+            // height: 500px;
+            .title {
+                font-weight: bold;
+                text-align: center;
+            }
         }
     }
 }
