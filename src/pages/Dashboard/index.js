@@ -63,7 +63,7 @@ const Dashboard = () => {
                                         <Button variant="contained">Exportar</Button>
                                     </div>
                                     <div className="col-6 ps-3">
-                                        <Button variant="contained">Exportar</Button>
+                                        <Button variant="contained">Excluir</Button>
                                     </div>
                                 </div>
                             </div>

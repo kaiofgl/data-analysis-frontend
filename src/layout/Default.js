@@ -9,10 +9,14 @@ import ListItemButton from '@mui/material/ListItemButton';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 
 import './Default.scss';
+import { useNavigate } from 'react-router';
 
 const drawerWidth = 210;
 
 function Layout({ children }) {
+
+  const navigate = useNavigate();
+
   return (
     <div className="default">
       <Drawer
@@ -35,7 +39,7 @@ function Layout({ children }) {
               <ListItemIcon>
                 <InboxIcon />
               </ListItemIcon>
-              <ListItemText primary="Início" />
+              <ListItemText primary="Início" onClick={() => navigate("/")} />
             </ListItemButton>
           </ListItem>
         </List>
