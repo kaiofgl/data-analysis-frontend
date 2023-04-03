@@ -1,0 +1,16 @@
+.processing {
+    display: flex;
+    flex-wrap: wrap;
+
+    .card {
+        flex-basis: 48%;
+        max-width: 48%;
+
+        // max-width: 30%;
+        // height: 500px;
+        .title {
+            font-weight: bold;
+            text-align: center;
+        }
+    }
+}

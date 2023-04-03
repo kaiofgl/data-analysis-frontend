@@ -20,7 +20,7 @@ const CardFile = (props) => {
 
     // Modal Upload
     function modalHandleConfirm() {
-        console.log('confirm upload');
+        props.onChange(file)
     }
 
     function modalHandleClose() {
