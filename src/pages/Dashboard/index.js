@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router';
 
 import { AlertTriangle, PieChart } from "react-feather";
 
+import ModalConfirm from "../../components/Modal/ModalConfirm";
 import "./Dashboard.scss";
 import PieGraph from "../../components/Chart/Pie";
 import WordCloud from "../../components/Chart/WordCloud";
@@ -19,7 +20,8 @@ const Dashboard = () => {
     const { filename } = useParams();
 
     const [filenameFriendly, setFilenameFriendly] = useState(null);
-
+    const [file, setFile] = useState([]);
+    const [modalConfirmOpen, setModalConfirmOpen] = useState(false);
     const [processedData, setProcessedData] = useState(null);
     const [loading, setLoading] = useState(false);
 
@@ -49,41 +51,61 @@ const Dashboard = () => {
         setProcessedData(null);
         setLoading(false);
         const storage = JSON.parse(localStorage.getItem('storage'));
-        if (storage) {
-            const filenameFriendly = storage.find(e => e.filename === filename);
-            setFilenameFriendly(filenameFriendly.filename_friendly + "." + filenameFriendly.extension);
-        } else {
-            navigate("/")
-        }
 
+        if (storage && storage.length > 0) {
+            const fileFromStorage = storage.find(e => e.filename === filename);
+            setFilenameFriendly(fileFromStorage.filename_friendly + "." + fileFromStorage.extension);
+            setFile(fileFromStorage);
+        } else {
+            navigate("/");
+        }
+        handleGraphics();
     }, [filename])
 
+
+    function modalConfirmClose() {
+        setModalConfirmOpen(false);
+    }
+
+    function modalConfirm() {
+        const storage = JSON.parse(localStorage.getItem('storage'));
+        if (storage) {
+            const indexOfExclusion = storage.map(e => e.filename).indexOf(file.filename);
+
+            if (indexOfExclusion != -1) {
+                storage.splice(indexOfExclusion, 1);
+
+                localStorage.setItem('storage', JSON.stringify(storage));
+                navigate("/");
+            }
+        }
+    }
 
     return (
         <Layout>
             <div className="processing">
-                Dashboard
                 <div className="card dashboard">
                     <div className="d-flex card-content">
                         <div className="col-6 py-4">
-                            <div className="title">
-                                Dashboard - {filenameFriendly}
+                            <div className="pt-5 title d-flex justify-content-center flex-wrap">
+                                <p className="w-100 fw-light">Dashboard</p>
+                                <span className="w-100">{filenameFriendly}</span>
                             </div>
                         </div>
                         <div className="col-6 py-4 card-actions">
                             <div>
-                                dados
-                            </div>
-                            <div>
-                                <div className="px-4">
+                                {/* <div className="px-4">
                                     <Button variant="contained" >Preview rápido</Button>
-                                </div>
+                                </div> */}
                                 <div className="px-4 d-flex pt-4">
                                     <div className="col-6 pe-3">
                                         <Button variant="contained">Exportar</Button>
                                     </div>
                                     <div className="col-6 ps-3">
-                                        <Button variant="contained">Excluir</Button>
+                                        <Button onClick={(e) => {
+                                            e.preventDefault();
+                                            setModalConfirmOpen(true);
+                                        }} variant="contained">Excluir</Button>
                                     </div>
                                 </div>
                             </div>
@@ -94,10 +116,10 @@ const Dashboard = () => {
                     <div className="title d-flex justify-content-center w-100 pt-4">
                         Gráficos <AlertTriangle className="ms-2 mt-1" />
                     </div>
-                    <div>
+                    {/* <div>
                         <Button variant="contained" onClick={handleGraphics}><PieChart className="mx-2" /> Gerar gráficos automaticamente </Button>
                         <AlertTriangle className="ms-3" />
-                    </div>
+                    </div> */}
                     {loading ?
                         <div className="loading">
                             <CircularProgress />
@@ -130,6 +152,13 @@ const Dashboard = () => {
                     {/* <ModalPreview data={preview} open={previewOpen} column={previewcolumn} onClose={closePreview} /> */}
                 </div>
             </div>
+            <ModalConfirm
+                title="Excluir arquivo?"
+                open={modalConfirmOpen}
+                onConfirm={modalConfirm}
+                onClose={modalConfirmClose}
+                message="Você confirma a exclusão do arquivo? "
+            ></ModalConfirm>
         </Layout>
     )
 }

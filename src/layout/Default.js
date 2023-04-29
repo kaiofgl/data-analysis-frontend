@@ -10,7 +10,7 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 
 import { useNavigate } from 'react-router';
 import { RiFileExcel2Line } from '@react-icons/all-files/ri/RiFileExcel2Line';
-import { HiHome } from '@react-icons/all-files/hi/HiHome'
+import { ImCloudUpload } from '@react-icons/all-files/im/ImCloudUpload'
 
 import './Default.scss';
 
@@ -46,10 +46,8 @@ function Layout({ children }) {
         <List>
           <ListItem disablePadding>
             <ListItemButton>
-              <ListItemIcon>
-                <HiHome />
-              </ListItemIcon>
-              <ListItemText primary="Início" onClick={() => navigate("/")} />
+              <ImCloudUpload />
+              <ListItemText className="mx-2 dashboardText" primary="Enviar Arquivo" onClick={() => navigate("/")} />
             </ListItemButton>
           </ListItem>
         </List>
@@ -58,7 +56,7 @@ function Layout({ children }) {
         {
           storedItems.length > 0 &&
           <div>
-            <Toolbar>Minhas dashboards</Toolbar>
+            <Toolbar>Meus envios</Toolbar>
             <List>
               {storedItems.map((content, index) => (
                 <ListItem key={content.filename} disablePadding>
