@@ -1,6 +1,6 @@
 import { Drawer, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 
 import Toolbar from '@mui/material/Toolbar';
 import Divider from '@mui/material/Divider';
@@ -8,14 +8,24 @@ import Divider from '@mui/material/Divider';
 import ListItemButton from '@mui/material/ListItemButton';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 
-import './Default.scss';
 import { useNavigate } from 'react-router';
+import { RiFileExcel2Line } from '@react-icons/all-files/ri/RiFileExcel2Line';
+import { HiHome } from '@react-icons/all-files/hi/HiHome'
+
+import './Default.scss';
 
 const drawerWidth = 210;
 
 function Layout({ children }) {
 
   const navigate = useNavigate();
+
+  const [storedItems, setStoredItems] = useState([]);
+
+  useEffect(() => {
+    const storedContent = JSON.parse(localStorage.getItem('storage')) || [];
+    setStoredItems(storedContent)
+  }, [localStorage.getItem('storage')])
 
   return (
     <div className="default">
@@ -37,7 +47,7 @@ function Layout({ children }) {
           <ListItem disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                <InboxIcon />
+                <HiHome />
               </ListItemIcon>
               <ListItemText primary="Início" onClick={() => navigate("/")} />
             </ListItemButton>
@@ -45,19 +55,26 @@ function Layout({ children }) {
         </List>
         <Divider />
         {/* TODO: Dashboards personalizadas */}
-        {/* <Toolbar>Minhas dashboards</Toolbar>
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List> */}
+        {
+          storedItems.length > 0 &&
+          <div>
+            <Toolbar>Minhas dashboards</Toolbar>
+            <List>
+              {storedItems.map((content, index) => (
+                <ListItem key={content.filename} disablePadding>
+                  <ListItemButton onClick={() => navigate("/dashboard/" + content.filename)} className='px-3'>
+                    <RiFileExcel2Line />
+                    <ListItemText className="mx-2 dashboardText" primary={
+                      content.filename_friendly.length > 20 ? content.filename_friendly.substring(0, 20) + "..."
+                        :
+                        content.filename_friendly + "." + content.extension
+                    } />
+                  </ListItemButton>
+                </ListItem>
+              ))}
+            </List>
+          </div>
+        }
       </Drawer>
       <main
         color='primary'
