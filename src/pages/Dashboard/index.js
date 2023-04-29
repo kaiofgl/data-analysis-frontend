@@ -7,16 +7,23 @@ import { Button, CircularProgress } from "@mui/material";
 import BarGraph from "../../components/Chart/Bar";
 
 import api from "../../utils/api";
+import { useNavigate } from 'react-router';
 
 import { AlertTriangle, PieChart } from "react-feather";
 
 import "./Dashboard.scss";
+import PieGraph from "../../components/Chart/Pie";
+import WordCloud from "../../components/Chart/WordCloud";
 
 const Dashboard = () => {
     const { filename } = useParams();
 
+    const [filenameFriendly, setFilenameFriendly] = useState(null);
+
     const [processedData, setProcessedData] = useState(null);
     const [loading, setLoading] = useState(false);
+
+    const navigate = useNavigate();
 
     function handleGraphics() {
         setLoading(true);
@@ -38,6 +45,19 @@ const Dashboard = () => {
         });
     }
 
+    useEffect(() => {
+        setProcessedData(null);
+        setLoading(false);
+        const storage = JSON.parse(localStorage.getItem('storage'));
+        if (storage) {
+            const filenameFriendly = storage.find(e => e.filename === filename);
+            setFilenameFriendly(filenameFriendly.filename_friendly + "." + filenameFriendly.extension);
+        } else {
+            navigate("/")
+        }
+
+    }, [filename])
+
 
     return (
         <Layout>
@@ -47,7 +67,7 @@ const Dashboard = () => {
                     <div className="d-flex card-content">
                         <div className="col-6 py-4">
                             <div className="title">
-                                Dashboard - {filename}
+                                Dashboard - {filenameFriendly}
                             </div>
                         </div>
                         <div className="col-6 py-4 card-actions">
@@ -87,12 +107,23 @@ const Dashboard = () => {
                         </div> :
                         <div className="list pt-4">
                             {processedData ? Object.keys(processedData).map((key) => {
-                                return (
-                                    <div key={key} className="card mx-2 my-2">
-                                        <p className="title pt-4">{key}</p>
-                                        <BarGraph processed={processedData[key]} sheetName={key} />
-                                    </div>
-                                )
+                                if (Object.keys(processedData[key].data).length > 0) {
+                                    return (
+                                        <div key={key} className="card mx-2 my-2">
+                                            <p className="title pt-4">{key}</p>
+                                            {processedData[key].type_suggestion == "pie" &&
+                                                <PieGraph processed={processedData[key].data} sheetName={key} />
+                                            }
+                                            {processedData[key].type_suggestion == "bar" &&
+                                                <BarGraph processed={processedData[key].data} sheetName={key} />
+                                            }
+                                            {processedData[key].type_suggestion == "word_cloud" &&
+                                                <WordCloud processed={processedData[key].data} />
+                                            }
+
+                                        </div>
+                                    )
+                                }
                             }) : <></>}
                         </div>
                     }
