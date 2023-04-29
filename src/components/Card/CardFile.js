@@ -64,7 +64,7 @@ const CardFile = (props) => {
                     <div className="label">
                         <div>Enviar arquivo</div>
                         <UploadCloud />
-                        <div className="p6">.xslx, .xsl, .csv, .json</div>
+                        <div className="p6">.xlsx, .xls, .csv, .json</div>
                     </div>
                 </div>
             </label>
