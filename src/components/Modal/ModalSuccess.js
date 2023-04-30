@@ -23,8 +23,8 @@ const ModalSuccess = (props) => {
         <Dialog
             open={open}
         >
-            <DialogTitle className="d-flex justify-center" sx={{ fontWeight: "bold" }}>
-                {title} <div className='px-2'><Check status="success" className='align-middle' /></div>
+            <DialogTitle className='d-flex justify-center' sx={{ fontWeight: 'bold' }}>
+                {title} <div className='px-2'><Check status='success' className='align-middle' /></div>
             </DialogTitle>
             <DialogContent>
                 <DialogContentText>
@@ -32,7 +32,7 @@ const ModalSuccess = (props) => {
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button variant="contained" color="success" onClick={onConfirm}>Fechar</Button>
+                <Button variant='contained' color='success' onClick={onConfirm}>Fechar</Button>
             </DialogActions>
         </Dialog>
     )

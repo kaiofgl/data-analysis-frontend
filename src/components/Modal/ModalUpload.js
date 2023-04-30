@@ -1,13 +1,13 @@
-import "./ModalUpload.scss";
+import './ModalUpload.scss';
 
-import { useEffect, useState } from "react";
-import { Divider, Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
-import { Paperclip, X, UploadCloud } from "react-feather";
+import { useEffect, useState } from 'react';
+import { Divider, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { Paperclip, X, UploadCloud } from 'react-feather';
 
-import ListUpload from "../List/ListUpload";
-import ModalPreview from "./ModalPreview";
+import ListUpload from '../List/ListUpload';
+import ModalPreview from './ModalPreview';
 
-import api from "../../utils/api";
+import api from '../../utils/api';
 
 const ModalUpload = (props) => {
     const { open, file } = props;
@@ -45,12 +45,12 @@ const ModalUpload = (props) => {
     }
 
     const handleStructureFile = (file) => {
-        api.post("api/v1/processing/pre-structure", formData).then((response) => {
+        api.post('api/v1/processing/pre-structure', formData).then((response) => {
             const { status } = response
             if (status === 200) {
                 setPreStructure(response.data)
             } else {
-                console.log("handle error");
+                console.log('handle error');
             }
         });
     }
@@ -63,14 +63,14 @@ const ModalUpload = (props) => {
         formData.set('file', file);
         formData.set('column', row);
 
-        api.post("api/v1/processing/pre-structure/column", formData).then((response) => {
+        api.post('api/v1/processing/pre-structure/column', formData).then((response) => {
             const { status } = response
             if (status === 200) {
                 setPreview(response.data);
                 setPreviewColumn(row);
                 setPreviewOpen(true);
             } else {
-                console.log("handle error");
+                console.log('handle error');
             }
         });
     }
@@ -97,36 +97,36 @@ const ModalUpload = (props) => {
             open={open}
             onClose={onClose}
         >
-            <DialogTitle className="d-flex justify-center" sx={{ fontWeight: "bold" }}>
+            <DialogTitle className='d-flex justify-center' sx={{ fontWeight: 'bold' }}>
                 Importação de dados
             </DialogTitle>
             <DialogContent>
-                <label htmlFor="upload-modal" className="input-file">
+                <label htmlFor='upload-modal' className='input-file'>
                     {fileUpload === false ?
                         <input
-                            accept=".xlsx, .xls, .json, .csv"
-                            id="upload-modal"
-                            type="file"
+                            accept='.xlsx, .xls, .json, .csv'
+                            id='upload-modal'
+                            type='file'
                             hidden
                             onChange={handleFile}
                         />
                         : <></>}
 
-                    <div className="filename">
-                        <div className="upload">
+                    <div className='filename'>
+                        <div className='upload'>
                             {fileUpload === false ?
-                                <div className="d-flex">
+                                <div className='d-flex'>
                                     <UploadCloud />
                                     <div >
-                                        <div className="px-3">Enviar arquivo</div>
-                                        <div className="p6 text-center">.xslx, .xsl, .csv, .json</div>
+                                        <div className='px-3'>Enviar arquivo</div>
+                                        <div className='p6 text-center'>.xslx, .xsl, .csv, .json</div>
                                     </div>
                                 </div>
                                 :
                                 <div>
                                     <Paperclip />
                                     {fileUpload.name}
-                                    <div className="trash">
+                                    <div className='trash'>
                                         <X onClick={remomeFile} />
                                     </div>
                                 </div>
@@ -134,13 +134,13 @@ const ModalUpload = (props) => {
                         </div>
                     </div>
 
-                    <div className="bar"></div>
+                    <div className='bar'></div>
                 </label>
 
                 {preStructure.length > 0 ?
                     <div>
-                        <Divider className="pt-4"></Divider>
-                        <DialogTitle className="d-flex justify-center" sx={{ fontWeight: "bold" }}>
+                        <Divider className='pt-4'></Divider>
+                        <DialogTitle className='d-flex justify-center' sx={{ fontWeight: 'bold' }}>
                             Estrutura
                         </DialogTitle>
                         <ListUpload structure={preStructure} handlePreview={handlePreview} />
@@ -149,8 +149,8 @@ const ModalUpload = (props) => {
 
             </DialogContent>
             <DialogActions>
-                <Button variant="outlined" color="danger" onClick={onClose}>Cancelar</Button>
-                <Button variant="contained" onClick={onConfirm}>Importar</Button>
+                <Button variant='outlined' color='danger' onClick={onClose}>Cancelar</Button>
+                <Button variant='contained' onClick={onConfirm}>Importar</Button>
             </DialogActions>
         </Dialog>
     )

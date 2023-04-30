@@ -1,25 +1,23 @@
-import Layout from "../../layout/Default"
+import Layout from '../../layout/Default'
 
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { Button, CircularProgress } from "@mui/material";
+import BarGraph from '../../components/Chart/Bar';
 
-import BarGraph from "../../components/Chart/Bar";
-
-import api from "../../utils/api";
+import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Button, CircularProgress } from '@mui/material';
 import { useNavigate } from 'react-router';
+import { AlertTriangle } from 'react-feather';
 
-import { AlertTriangle, PieChart } from "react-feather";
+import ModalConfirm from '../../components/Modal/ModalConfirm';
+import PieGraph from '../../components/Chart/Pie';
+import WordCloud from '../../components/Chart/WordCloud';
 
-import ModalConfirm from "../../components/Modal/ModalConfirm";
-import "./Dashboard.scss";
-import PieGraph from "../../components/Chart/Pie";
-import WordCloud from "../../components/Chart/WordCloud";
+import api from '../../utils/api';
+import './Dashboard.scss';
 
 const Dashboard = () => {
     const { filename } = useParams();
 
-    const [filenameFriendly, setFilenameFriendly] = useState(null);
     const [file, setFile] = useState([]);
     const [modalConfirmOpen, setModalConfirmOpen] = useState(false);
     const [processedData, setProcessedData] = useState(null);
@@ -34,7 +32,7 @@ const Dashboard = () => {
             filename: filename
         }
 
-        api.post("api/v1/processing/all", data).then((response) => {
+        api.post('api/v1/processing/all', data).then((response) => {
             setLoading(false);
 
             const { status } = response
@@ -42,7 +40,7 @@ const Dashboard = () => {
                 const allData = JSON.parse(JSON.stringify(response.data));
                 setProcessedData((allData));
             } else {
-                console.log("handle error");
+                console.log('handle error');
             }
         });
     }
@@ -54,10 +52,14 @@ const Dashboard = () => {
 
         if (storage && storage.length > 0) {
             const fileFromStorage = storage.find(e => e.filename === filename);
-            setFilenameFriendly(fileFromStorage.filename_friendly + "." + fileFromStorage.extension);
-            setFile(fileFromStorage);
+
+            if (fileFromStorage) {
+                setFile(fileFromStorage);
+            } else {
+                navigate('/');
+            }
         } else {
-            navigate("/");
+            navigate('/');
         }
         handleGraphics();
     }, [filename])
@@ -76,70 +78,70 @@ const Dashboard = () => {
                 storage.splice(indexOfExclusion, 1);
 
                 localStorage.setItem('storage', JSON.stringify(storage));
-                navigate("/");
+                navigate('/');
             }
         }
     }
 
     return (
         <Layout>
-            <div className="processing">
-                <div className="card dashboard">
-                    <div className="d-flex card-content">
-                        <div className="col-6 py-4">
-                            <div className="pt-5 title d-flex justify-content-center flex-wrap">
-                                <p className="w-100 fw-light">Dashboard</p>
-                                <span className="w-100">{filenameFriendly}</span>
+            <div className='processing'>
+                <div className='card dashboard'>
+                    <div className='d-flex card-content'>
+                        <div className='col-6 py-4'>
+                            <div className='pt-5 title d-flex justify-content-center flex-wrap'>
+                                <p className='w-100 fw-light'>Dashboard</p>
+                                <span className='w-100'>{file.filename_friendly}.{file.extension}</span>
                             </div>
                         </div>
-                        <div className="col-6 py-4 card-actions">
+                        <div className='col-6 py-4 card-actions '>
                             <div>
-                                {/* <div className="px-4">
-                                    <Button variant="contained" >Preview rápido</Button>
+                                {/* <div className='px-4'>
+                                    <Button variant='contained' >Preview rápido</Button>
                                 </div> */}
-                                <div className="px-4 d-flex pt-4">
-                                    <div className="col-6 pe-3">
-                                        <Button variant="contained">Exportar</Button>
-                                    </div>
-                                    <div className="col-6 ps-3">
+                                <div className='px-4 d-flex pt-4 justify-content-end'>
+                                    {/* <div className='col-6 pe-3'>
+                                        <Button variant='contained'>Exportar</Button>
+                                    </div> */}
+                                    <div className='col-6 ps-3'>
                                         <Button onClick={(e) => {
                                             e.preventDefault();
                                             setModalConfirmOpen(true);
-                                        }} variant="contained">Excluir</Button>
+                                        }} variant='contained'>Excluir</Button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="graphics">
-                    <div className="title d-flex justify-content-center w-100 pt-4">
-                        Gráficos <AlertTriangle className="ms-2 mt-1" />
+                <div className='graphics'>
+                    <div className='title d-flex justify-content-center w-100 pt-4'>
+                        Gráficos <AlertTriangle className='ms-2 mt-1' />
                     </div>
                     {/* <div>
-                        <Button variant="contained" onClick={handleGraphics}><PieChart className="mx-2" /> Gerar gráficos automaticamente </Button>
-                        <AlertTriangle className="ms-3" />
+                        <Button variant='contained' onClick={handleGraphics}><PieChart className='mx-2' /> Gerar gráficos automaticamente </Button>
+                        <AlertTriangle className='ms-3' />
                     </div> */}
                     {loading ?
-                        <div className="loading">
+                        <div className='loading'>
                             <CircularProgress />
-                            <div className="ps-4">
+                            <div className='ps-4'>
                                 Processando...
                             </div>
                         </div> :
-                        <div className="list pt-4">
+                        <div className='list pt-4'>
                             {processedData ? Object.keys(processedData).map((key) => {
                                 if (Object.keys(processedData[key].data).length > 0) {
                                     return (
-                                        <div key={key} className="card mx-2 my-2">
-                                            <p className="title pt-4">{key}</p>
-                                            {processedData[key].type_suggestion == "pie" &&
+                                        <div key={key} className='card mx-2 my-2'>
+                                            <p className='title pt-4'>{key}</p>
+                                            {processedData[key].type_suggestion == 'pie' &&
                                                 <PieGraph processed={processedData[key].data} sheetName={key} />
                                             }
-                                            {processedData[key].type_suggestion == "bar" &&
+                                            {processedData[key].type_suggestion == 'bar' &&
                                                 <BarGraph processed={processedData[key].data} sheetName={key} />
                                             }
-                                            {processedData[key].type_suggestion == "word_cloud" &&
+                                            {processedData[key].type_suggestion == 'word_cloud' &&
                                                 <WordCloud processed={processedData[key].data} />
                                             }
 
@@ -153,11 +155,11 @@ const Dashboard = () => {
                 </div>
             </div>
             <ModalConfirm
-                title="Excluir arquivo?"
+                title='Excluir arquivo?'
                 open={modalConfirmOpen}
                 onConfirm={modalConfirm}
                 onClose={modalConfirmClose}
-                message="Você confirma a exclusão do arquivo? "
+                message='Você confirma a exclusão do arquivo? '
             ></ModalConfirm>
         </Layout>
     )

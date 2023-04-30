@@ -17,12 +17,12 @@ export default function ListUpload(props) {
 
     return (
         <TableContainer component={Paper}>
-            <Table size="small" aria-label="a dense table">
+            <Table size='small' aria-label='a dense table'>
                 <TableHead>
                     <TableRow>
                         <TableCell>Coluna</TableCell>
-                        <TableCell align="right">Preview</TableCell>
-                        <TableCell align="right">Remover</TableCell>
+                        <TableCell align='right'>Preview</TableCell>
+                        <TableCell align='right'>Remover</TableCell>
 
                     </TableRow>
                 </TableHead>
@@ -32,11 +32,11 @@ export default function ListUpload(props) {
                             key={row}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
-                            <TableCell component="th" scope="row">
+                            <TableCell component='th' scope='row'>
                                 {row}
                             </TableCell>
-                            <TableCell onClick={() => handlePreview(row)} align="center" sx={{ cursor: "pointer" }}><PieChart /></TableCell>
-                            <TableCell align="center"><Trash /></TableCell>
+                            <TableCell onClick={() => handlePreview(row)} align='center' sx={{ cursor: 'pointer' }}><PieChart /></TableCell>
+                            <TableCell align='center'><Trash /></TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

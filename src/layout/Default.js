@@ -6,11 +6,14 @@ import Toolbar from '@mui/material/Toolbar';
 import Divider from '@mui/material/Divider';
 
 import ListItemButton from '@mui/material/ListItemButton';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 
 import { useNavigate } from 'react-router';
 import { RiFileExcel2Line } from '@react-icons/all-files/ri/RiFileExcel2Line';
 import { ImCloudUpload } from '@react-icons/all-files/im/ImCloudUpload'
+import { GoLogoGithub } from '@react-icons/all-files/go/GoLogoGithub'
+import { AiFillGithub } from '@react-icons/all-files/ai/AiFillGithub'
+import { BsCodeSlash } from '@react-icons/all-files/bs/BsCodeSlash'
+
 
 import './Default.scss';
 
@@ -24,11 +27,11 @@ function Layout({ children }) {
 
   useEffect(() => {
     const storedContent = JSON.parse(localStorage.getItem('storage')) || [];
-    setStoredItems(storedContent)
+    setStoredItems(storedContent);
   }, [localStorage.getItem('storage')])
 
   return (
-    <div className="default">
+    <div className='default'>
       <Drawer
         sx={{
           width: drawerWidth,
@@ -38,8 +41,8 @@ function Layout({ children }) {
             boxSizing: 'border-box',
           },
         }}
-        variant="permanent"
-        anchor="left"
+        variant='permanent'
+        anchor='left'
       >
         <Toolbar>Processamento de dados </Toolbar>
         <Divider />
@@ -47,7 +50,7 @@ function Layout({ children }) {
           <ListItem disablePadding>
             <ListItemButton>
               <ImCloudUpload />
-              <ListItemText className="mx-2 dashboardText" primary="Enviar Arquivo" onClick={() => navigate("/")} />
+              <ListItemText className='mx-2 dashboardText' primary='Enviar Arquivo' onClick={() => navigate('/')} />
             </ListItemButton>
           </ListItem>
         </List>
@@ -60,12 +63,12 @@ function Layout({ children }) {
             <List>
               {storedItems.map((content, index) => (
                 <ListItem key={content.filename} disablePadding>
-                  <ListItemButton onClick={() => navigate("/dashboard/" + content.filename)} className='px-3'>
+                  <ListItemButton onClick={() => navigate('/dashboard/' + content.filename)} className='px-3'>
                     <RiFileExcel2Line />
-                    <ListItemText className="mx-2 dashboardText" primary={
-                      content.filename_friendly.length > 20 ? content.filename_friendly.substring(0, 20) + "..."
+                    <ListItemText className='mx-2 dashboardText' primary={
+                      content.filename_friendly.length > 20 ? content.filename_friendly.substring(0, 20) + '...'
                         :
-                        content.filename_friendly + "." + content.extension
+                        content.filename_friendly + '.' + content.extension
                     } />
                   </ListItemButton>
                 </ListItem>
@@ -73,10 +76,53 @@ function Layout({ children }) {
             </List>
           </div>
         }
+        <div className='github pb-3'>
+          <div className='logo'>
+            <GoLogoGithub />
+          </div>
+          <div className='backend d-flex align-content-center'>
+            <ListItemButton>
+              <AiFillGithub />
+              <ListItemText className='mx-2 dashboardText' primary='Backend' onClick={() => navigate('/')} />
+            </ListItemButton>
+          </div>
+          <div className='frontned d-flex align-content-center'>
+            <ListItemButton>
+              <AiFillGithub />
+              <ListItemText className='mx-2 dashboardText' primary='Frontend' onClick={() => navigate('/')} />
+            </ListItemButton>
+          </div>
+          <div className='dashboardText'>
+            <div className='px-3'>
+              <BsCodeSlash />
+              <span className='px-2 pb-2'>
+                Colaboradores:
+              </span>
+            </div>
+            <div className='px-3 d-flex flex-column'>
+              <span>
+                Kaio Felipe
+              </span>
+              <span>
+                Pedro Mota
+              </span>
+              <span>
+                Isadora H.
+              </span>
+              <span>
+                Helyf Avila
+              </span>
+              <span>
+                Leandro Prado
+              </span>
+            </div>
+
+          </div>
+        </div>
       </Drawer>
       <main
         color='primary'
-        className="content px-3 py-3"
+        className='content px-3 py-3'
       >
         <div />
         {children}

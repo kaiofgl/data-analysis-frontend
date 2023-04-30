@@ -1,10 +1,11 @@
-import "./CardFile.scss";
 
 import { UploadCloud } from 'react-feather';
+import { useState } from 'react';
 
-import { useState } from "react";
 import ModalUpload from '../../components/Modal/ModalUpload';
 import ModalConfirm from '../../components/Modal/ModalConfirm';
+
+import './CardFile.scss';
 
 const CardFile = (props) => {
 
@@ -51,20 +52,20 @@ const CardFile = (props) => {
 
     return (
         <>
-            <label htmlFor="upload" className="card new">
+            <label htmlFor='upload' className='card new'>
                 <div >
                     <input
-                        accept=".xlsx, .xls, .json, .csv"
-                        id="upload"
-                        name="file"
-                        className="mt-2 input"
-                        type="file"
+                        accept='.xlsx, .xls, .json, .csv'
+                        id='upload'
+                        name='file'
+                        className='mt-2 input'
+                        type='file'
                         onChange={handleFile}
                     />
-                    <div className="label">
+                    <div className='label'>
                         <div>Enviar arquivo</div>
                         <UploadCloud />
-                        <div className="p6">.xlsx, .xls, .csv, .json</div>
+                        <div className='p6'>.xlsx, .xls, .csv, .json</div>
                     </div>
                 </div>
             </label>
@@ -76,11 +77,11 @@ const CardFile = (props) => {
                 file={file}
             ></ModalUpload>
             <ModalConfirm
-                title="Cancelar envio?"
+                title='Cancelar envio?'
                 open={modalConfirmOpen}
                 onConfirm={modalConfirm}
                 onClose={modalConfirmClose}
-                message="Você deseja cancelar o envio do arquivo? "
+                message='Você deseja cancelar o envio do arquivo? '
             ></ModalConfirm>
         </>
     )

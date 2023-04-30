@@ -2,11 +2,10 @@ import "./Home.scss"
 
 import Layout from "../../layout/Default";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import CardFile from "../../components/Card/CardFile";
-import Card from "../../components/Card/Card";
 import ModalSuccess from "../../components/Modal/ModalSuccess";
 
 import api from "../../utils/api";

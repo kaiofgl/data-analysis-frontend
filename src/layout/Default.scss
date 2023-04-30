@@ -20,3 +20,17 @@
         font-size: 12px;
     }
 }
+
+.github {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+
+    .logo {
+        text-align: center;
+
+        svg {
+            width: 51px;
+        }
+    }
+}
