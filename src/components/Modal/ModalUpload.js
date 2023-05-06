@@ -1,7 +1,7 @@
 import './ModalUpload.scss';
 
 import { useEffect, useState } from 'react';
-import { Divider, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { Divider, Button, Dialog, DialogActions, DialogContent, DialogTitle, CircularProgress } from '@mui/material';
 import { Paperclip, X, UploadCloud } from 'react-feather';
 
 import ListUpload from '../List/ListUpload';
@@ -14,6 +14,7 @@ const ModalUpload = (props) => {
 
     const [fileUpload, setFileUpload] = useState(false);
 
+    const [loadPreStructure, setLoadPreStructure] = useState(true);
     const [preStructure, setPreStructure] = useState([]);
 
     const [preview, setPreview] = useState([]);
@@ -45,6 +46,7 @@ const ModalUpload = (props) => {
     }
 
     const handleStructureFile = (file) => {
+        setLoadPreStructure(true);
         api.post('api/v1/processing/pre-structure', formData).then((response) => {
             const { status } = response
             if (status === 200) {
@@ -52,6 +54,8 @@ const ModalUpload = (props) => {
             } else {
                 console.log('handle error');
             }
+        }).finally(() => {
+            setLoadPreStructure(false);
         });
     }
 
@@ -136,7 +140,14 @@ const ModalUpload = (props) => {
 
                     <div className='bar'></div>
                 </label>
-
+                {loadPreStructure && <div className='pt-5 loading d-flex justify-content-center flex-wrap align-items-center'>
+                    <div>
+                        <CircularProgress />
+                    </div>
+                    <div className='ps-4 '>
+                        Enviando...
+                    </div>
+                </div>}
                 {preStructure.length > 0 ?
                     <div>
                         <Divider className='pt-4'></Divider>

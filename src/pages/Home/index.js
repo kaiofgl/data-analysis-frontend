@@ -34,8 +34,6 @@ const Home = () => {
                     localStorage.setItem('storage', JSON.stringify(storedContent));
                     setFile(content)
                     setModalSuccess(true);
-                } else {
-                    console.log("handle error");
                 }
             });
         }

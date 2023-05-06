@@ -48,7 +48,36 @@ const BarGraph = (props) => {
                     '#b1adc1',
                     '#d86b3b',
                     '#daf8e5',
-                ].slice(0, 10),
+                    '#4c0b5f',
+                    '#e8d73a',
+                    '#a1d7c9',
+                    '#f26c6c',
+                    '#608597',
+                    '#fc8d62',
+                    '#95d5b2',
+                    '#f7797d',
+                    '#3eb1c8',
+                    '#8c564b',
+                    '#5d3f6a',
+                    '#d8e8d4',
+                    '#5a6344',
+                    '#fdcdbc',
+                    '#f1b6da',
+                    '#b6d7a8',
+                    '#3eb1c8',
+                    '#8c564b',
+                    '#5d3f6a',
+                    '#d8e8d4',
+                    '#5a6344',
+                    '#fdcdbc',
+                    '#f1b6da',
+                    '#b6d7a8',
+                    '#FF6384',
+                    '#36A2EB',
+                    '#dc3dad',
+                    '#f90c83',
+                    '#88f8fe',
+                ].slice(0, 39),
                 borderColor: 'rgba(0,0,0,0)',
                 borderWidth: 2,
                 hoverBackgroundColor: [
@@ -62,7 +91,36 @@ const BarGraph = (props) => {
                     '#b1adc1',
                     '#d86b3b',
                     '#daf8e5',
-                ].slice(0, 10),
+                    '#4c0b5f',
+                    '#e8d73a',
+                    '#a1d7c9',
+                    '#f26c6c',
+                    '#608597',
+                    '#fc8d62',
+                    '#95d5b2',
+                    '#f7797d',
+                    '#3eb1c8',
+                    '#8c564b',
+                    '#5d3f6a',
+                    '#d8e8d4',
+                    '#5a6344',
+                    '#fdcdbc',
+                    '#f1b6da',
+                    '#b6d7a8',
+                    '#3eb1c8',
+                    '#8c564b',
+                    '#5d3f6a',
+                    '#d8e8d4',
+                    '#5a6344',
+                    '#fdcdbc',
+                    '#f1b6da',
+                    '#b6d7a8',
+                    '#FF6384',
+                    '#36A2EB',
+                    '#dc3dad',
+                    '#f90c83',
+                    '#88f8fe',
+                ].slice(0, 39),
             }]
     };
 
@@ -74,10 +132,21 @@ const BarGraph = (props) => {
     });
 
     const options = {
+        // scale: {
+        //     xAxes: [{
+        //         type: 'time',
+        //         ticks: {
+        //             autoSkip: true,
+        //             maxTicksLimit: 20
+        //         }
+        //     }]
+        // },
+        // indexAxis: 'y',
         responsive: true,
         animation: false,
         plugins: {
             legend: {
+                // position: 'right',
                 labels: {
                     usePointStyle: true,
                     generateLabels: function (chart) {

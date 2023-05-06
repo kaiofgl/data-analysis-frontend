@@ -11,7 +11,7 @@ import { AlertTriangle } from 'react-feather';
 import ModalConfirm from '../../components/Modal/ModalConfirm';
 import PieGraph from '../../components/Chart/Pie';
 import WordCloud from '../../components/Chart/WordCloud';
-
+import ModalError from '../../components/Modal/ModalError';
 import api from '../../utils/api';
 import './Dashboard.scss';
 
@@ -23,6 +23,11 @@ const Dashboard = () => {
     const [processedData, setProcessedData] = useState(null);
     const [loading, setLoading] = useState(false);
 
+
+    const [messageErrorTitle, setMessageErrorTitle] = useState('');
+    const [messageErrorOpen, setMessageErrorOpen] = useState(false);
+    const [messageErrorMessage, setMessageErrorMessage] = useState('');
+
     const navigate = useNavigate();
 
     function handleGraphics() {
@@ -33,8 +38,6 @@ const Dashboard = () => {
         }
 
         api.post('api/v1/processing/all', data).then((response) => {
-            setLoading(false);
-
             const { status } = response
             if (status === 200) {
                 const allData = JSON.parse(JSON.stringify(response.data));
@@ -42,7 +45,17 @@ const Dashboard = () => {
             } else {
                 console.log('handle error');
             }
-        });
+        })
+            .catch(e => {
+                setMessageErrorOpen(true);
+                setMessageErrorTitle('Erro fatal');
+                setMessageErrorMessage('Ocorreu um erro ao processar os dados. Reenvie o arquivo ou contate um administrador.')
+                // console.log(e);
+            })
+
+            .finally(() => {
+                setLoading(false);
+            });
     }
 
     useEffect(() => {
@@ -85,16 +98,22 @@ const Dashboard = () => {
 
     return (
         <Layout>
+            <ModalError
+                title={messageErrorTitle}
+                open={messageErrorOpen}
+                message={messageErrorMessage}
+                onClose={() => setMessageErrorOpen(false)}
+            ></ModalError>
             <div className='processing'>
                 <div className='card dashboard'>
                     <div className='d-flex card-content'>
-                        <div className='col-6 py-4'>
+                        <div className='col-8 py-4'>
                             <div className='pt-5 title d-flex justify-content-center flex-wrap'>
                                 <p className='w-100 fw-light'>Dashboard</p>
                                 <span className='w-100'>{file.filename_friendly}.{file.extension}</span>
                             </div>
                         </div>
-                        <div className='col-6 py-4 card-actions '>
+                        <div className='col-4 py-4 card-actions '>
                             <div>
                                 {/* <div className='px-4'>
                                     <Button variant='contained' >Preview rápido</Button>
@@ -148,7 +167,12 @@ const Dashboard = () => {
                                         </div>
                                     )
                                 }
-                            }) : <></>}
+                            }) : <div className='ps-4 text-center'>
+                                <span>
+
+                                    Ocorreu um erro, tente novamente.
+                                </span>
+                            </div>}
                         </div>
                     }
                     {/* <ModalPreview data={preview} open={previewOpen} column={previewcolumn} onClose={closePreview} /> */}

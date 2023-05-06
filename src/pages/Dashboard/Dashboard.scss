@@ -37,10 +37,22 @@
             height: 50px;
         }
 
+        @media screen and (max-width: 1300px) {
+            .list {
+                display: grid !important;
+            }
+
+            .card {
+                flex-basis: content !important;
+                width: 100% !important;
+                max-width: none !important;
+            }
+        }
+
         .list {
+
             display: flex;
             flex-wrap: wrap;
-
         }
 
         .card {

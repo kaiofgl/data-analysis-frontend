@@ -6,6 +6,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Divider from '@mui/material/Divider';
 
 import ListItemButton from '@mui/material/ListItemButton';
+import ModalError from '../components/Modal/ModalError';
 
 import { useNavigate } from 'react-router';
 import { RiFileExcel2Line } from '@react-icons/all-files/ri/RiFileExcel2Line';
@@ -14,6 +15,7 @@ import { GoLogoGithub } from '@react-icons/all-files/go/GoLogoGithub'
 import { AiFillGithub } from '@react-icons/all-files/ai/AiFillGithub'
 import { BsCodeSlash } from '@react-icons/all-files/bs/BsCodeSlash'
 
+import api from '../utils/api';
 
 import './Default.scss';
 
@@ -26,12 +28,69 @@ function Layout({ children }) {
   const [storedItems, setStoredItems] = useState([]);
 
   useEffect(() => {
+
     const storedContent = JSON.parse(localStorage.getItem('storage')) || [];
     setStoredItems(storedContent);
   }, [localStorage.getItem('storage')])
 
+  const [serverUpstream, setServerUpstream] = useState(true);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      fetchData();
+    }, 2000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  async function fetchData() {
+    const response = await api.get('/health').catch((e) => {
+      setServerUpstream(false);
+    });
+
+    if (response) {
+      const { status } = response;
+      setServerUpstream(true);
+    }
+  }
+
+  const [messageErrorTitle, setMessageErrorTitle] = useState('');
+  const [messageErrorOpen, setMessageErrorOpen] = useState(false);
+  const [messageErrorMessage, setMessageErrorMessage] = useState('');
+
+  useEffect(() => {
+
+    if (serverUpstream == false) {
+      setMessageErrorOpen(true);
+      setMessageErrorTitle('Servidor offline');
+      setMessageErrorMessage('O servidor de processamento está inoperante, tente novamente em instantes.')
+    }
+    console.log("The server is " + (serverUpstream == true ? "up" : "down"));
+  }, [serverUpstream])
+
+
+  const backend = () => {
+    let a = document.createElement('a');
+    a.target = '_blank';
+    a.href = 'https://github.com/kaiofgl/data-analysis-backend';
+    a.click();
+  }
+
+  const frontend = () => {
+    let a = document.createElement('a');
+    a.target = '_blank';
+    a.href = 'https://github.com/kaiofgl/data-analysis-frontend';
+    a.click();
+  }
+
   return (
     <div className='default'>
+      <ModalError
+        title={messageErrorTitle}
+        open={messageErrorOpen}
+        message={messageErrorMessage}
+        onClose={() => setMessageErrorOpen(false)}
+      ></ModalError>
       <Drawer
         sx={{
           width: drawerWidth,
@@ -83,13 +142,13 @@ function Layout({ children }) {
           <div className='backend d-flex align-content-center'>
             <ListItemButton>
               <AiFillGithub />
-              <ListItemText className='mx-2 dashboardText' primary='Backend' onClick={() => navigate('/')} />
+              <ListItemText className='mx-2 dashboardText' primary='Backend' onClick={() => backend()} />
             </ListItemButton>
           </div>
           <div className='frontned d-flex align-content-center'>
             <ListItemButton>
               <AiFillGithub />
-              <ListItemText className='mx-2 dashboardText' primary='Frontend' onClick={() => navigate('/')} />
+              <ListItemText className='mx-2 dashboardText' primary='Frontend' onClick={() => frontend()} />
             </ListItemButton>
           </div>
           <div className='dashboardText'>
