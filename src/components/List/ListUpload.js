@@ -22,7 +22,7 @@ export default function ListUpload(props) {
                     <TableRow>
                         <TableCell>Coluna</TableCell>
                         <TableCell align='right'>Preview</TableCell>
-                        <TableCell align='right'>Remover</TableCell>
+                        {/* <TableCell align='right'>Remover</TableCell> */}
 
                     </TableRow>
                 </TableHead>
@@ -36,7 +36,7 @@ export default function ListUpload(props) {
                                 {row}
                             </TableCell>
                             <TableCell onClick={() => handlePreview(row)} align='center' sx={{ cursor: 'pointer' }}><PieChart /></TableCell>
-                            <TableCell align='center'><Trash /></TableCell>
+                            {/* <TableCell align='center'><Trash /></TableCell> */}
                         </TableRow>
                     ))}
                 </TableBody>
